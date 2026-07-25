@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Six Sigma">
-  <meta name="description" content="A polished Six Sigma flashcard study app with spaced repetition, quizzes, favorites, streaks, and offline support.">
+  <meta name="description" content="Six Sigma flashcards with adaptive spaced repetition, quizzes, analytics, and offline support.">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icons/icon-180.png">
   <link rel="icon" href="icons/icon-192.png">
@@ -17,46 +17,40 @@
 <body>
   <div class="app-shell">
     <header class="topbar">
-      <div>
-        <div class="brand-row"><div class="brand-mark">6σ</div><div><h1>Six Sigma Study</h1><p id="subtitle">Build mastery one card at a time</p></div></div>
-      </div>
+      <div class="brand-row"><div class="brand-mark">6σ</div><div><h1>Six Sigma Study</h1><p>Build mastery one card at a time</p></div></div>
       <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">☾</button>
     </header>
 
     <main>
       <section class="view active" id="homeView">
         <div class="hero-card">
-          <div class="hero-copy">
-            <span class="eyebrow">Today</span>
-            <h2 id="heroGreeting">Ready to study?</h2>
-            <p id="heroMessage">Your next review session is waiting.</p>
-            <button class="primary-btn" id="startDue">Study due cards</button>
-          </div>
-          <div class="mastery-ring" id="masteryRing"><span id="masteryPct">0%</span><small>mastered</small></div>
+          <div class="hero-copy"><span class="eyebrow">Today</span><h2 id="heroGreeting">Ready to study?</h2><p id="heroMessage">Your next review session is waiting.</p><button class="primary-btn" id="continueStudy">Continue Study</button></div>
+          <div class="mastery-ring" id="masteryRing"><span id="masteryPct">0%</span><small>mastery</small></div>
         </div>
 
-        <div class="stat-grid">
-          <article class="stat-card"><span>🔥</span><strong id="streakValue">0</strong><small>day streak</small></article>
-          <article class="stat-card"><span>🗓️</span><strong id="dueValue">0</strong><small>due today</small></article>
-          <article class="stat-card"><span>⭐</span><strong id="favoriteValue">0</strong><small>favorites</small></article>
-          <article class="stat-card"><span>✅</span><strong id="reviewedValue">0</strong><small>reviewed</small></article>
+        <div class="dashboard-grid">
+          <button class="metric-card" id="dueCard"><span>🗓️</span><strong id="dueValue">0</strong><small>Cards Due Today</small></button>
+          <button class="metric-card" id="weakCard"><span>⚠️</span><strong id="weakValue">0</strong><small>Weak Concepts</small></button>
+          <button class="metric-card" id="favoritesCard"><span>⭐</span><strong id="favoriteValue">0</strong><small>Favorites</small></button>
+          <article class="metric-card"><span>🔥</span><strong id="streakValue">0</strong><small>Day Streak</small></article>
+          <article class="metric-card"><span>🎯</span><strong id="goalValue">0/20</strong><small>Daily Goal</small></article>
+          <article class="metric-card"><span>📈</span><strong id="readinessValue">0%</strong><small>Estimated Readiness</small></article>
         </div>
 
         <section class="panel-card">
           <div class="section-heading"><div><span class="eyebrow">Quick start</span><h3>Choose a study session</h3></div></div>
           <div class="quick-grid">
-            <button class="quick-card" data-session="due"><span class="quick-icon">🧠</span><b>Due cards</b><small>Spaced repetition</small></button>
-            <button class="quick-card" data-session="all"><span class="quick-icon">📚</span><b>All cards</b><small>Full deck</small></button>
-            <button class="quick-card" data-session="favorites"><span class="quick-icon">⭐</span><b>Favorites</b><small>Difficult cards</small></button>
-            <button class="quick-card" id="startQuizHome"><span class="quick-icon">🎯</span><b>Quiz</b><small>Multiple choice</small></button>
+            <button class="quick-card" data-session="due"><span>🧠</span><b>Due cards</b><small>Adaptive review</small></button>
+            <button class="quick-card" data-session="all"><span>📚</span><b>All cards</b><small>Full deck</small></button>
+            <button class="quick-card" data-session="favorites"><span>⭐</span><b>Favorites</b><small>Bookmarked cards</small></button>
+            <button class="quick-card" data-session="weak"><span>⚠️</span><b>Weak concepts</b><small>Needs attention</small></button>
           </div>
         </section>
 
         <section class="panel-card">
-          <div class="section-heading"><div><span class="eyebrow">Progress</span><h3>Study activity</h3></div><span class="muted" id="accuracyText">0% accuracy</span></div>
+          <div class="section-heading"><div><span class="eyebrow">Daily goal</span><h3 id="goalText">0 of 20 reviews</h3></div><button class="text-btn" id="changeGoal">Change</button></div>
           <div class="progress-track"><div id="goalProgress"></div></div>
-          <div class="goal-row"><span id="goalText">0 of 20 cards today</span><button class="text-btn" id="changeGoal">Change goal</button></div>
-          <div class="activity-strip" id="activityStrip" aria-label="Recent study activity"></div>
+          <div class="activity-strip" id="activityStrip"></div>
         </section>
       </section>
 
@@ -64,28 +58,14 @@
         <div class="study-header">
           <button class="icon-btn" id="closeStudy" aria-label="Close study session">×</button>
           <div class="study-progress-wrap"><div class="study-progress"><div id="studyProgressBar"></div></div><small id="studyCounter">1 of 1</small></div>
-          <button class="icon-btn favorite-btn" id="favoriteBtn" aria-label="Favorite this card">☆</button>
+          <button class="icon-btn favorite-btn" id="favoriteBtn" aria-label="Bookmark this card">☆</button>
         </div>
-
         <div class="swipe-stage" id="swipeStage">
-          <article class="flashcard" id="flashcard" tabindex="0" aria-label="Flashcard. Tap to flip.">
-            <div class="card-face card-front">
-              <div><span class="eyebrow" id="cardMeta">GROUP 1</span><h2 id="cardTerm">Term</h2></div>
-              <div class="tap-hint">Tap to reveal answer</div>
-            </div>
-            <div class="card-face card-back">
-              <div class="answer-scroll">
-                <span class="eyebrow">Definition</span>
-                <p class="definition" id="cardDefinition"></p>
-                <div class="explain-box"><b>Plain English</b><p id="cardPlain"></p></div>
-                <div class="explain-box"><b>Memory prompt</b><p id="cardExample"></p></div>
-              </div>
-              <div class="tap-hint">Tap to see the term</div>
-            </div>
+          <article class="flashcard" id="flashcard" tabindex="0">
+            <div class="card-face card-front"><div><span class="eyebrow" id="cardMeta">GROUP 1</span><h2 id="cardTerm">Term</h2></div><div class="tap-hint">Tap to reveal answer</div></div>
+            <div class="card-face card-back"><div class="answer-scroll"><span class="eyebrow">Definition</span><p class="definition" id="cardDefinition"></p><div class="explain-box"><b>Plain English</b><p id="cardPlain"></p></div><div class="explain-box"><b>Memory prompt</b><p id="cardExample"></p></div></div><div class="tap-hint">Tap to see the term</div></div>
           </article>
         </div>
-
-        <div class="rating-labels" id="ratingLabels"><span>Again</span><span>Hard</span><span>Good</span><span>Easy</span></div>
         <div class="rating-grid">
           <button class="rating again" data-rating="again"><b>Again</b><small id="againInterval">10m</small></button>
           <button class="rating hard" data-rating="hard"><b>Hard</b><small id="hardInterval">1d</small></button>
@@ -96,25 +76,29 @@
 
       <section class="view" id="browseView">
         <div class="page-title"><div><span class="eyebrow">Library</span><h2>Browse cards</h2></div></div>
-        <div class="search-row"><input id="searchInput" type="search" placeholder="Search terms and definitions"><button class="icon-btn" id="filterToggle">☰</button></div>
+        <div class="search-row"><input id="searchInput" type="search" placeholder="Search terms, definitions, or groups"><button class="icon-btn" id="filterToggle">☰</button></div>
         <div class="filters" id="filters">
           <select id="groupFilter"><option value="all">All groups</option><option value="1">Group 1</option><option value="2">Group 2</option><option value="3">Group 3</option><option value="4">Group 4</option></select>
-          <select id="statusFilter"><option value="all">All cards</option><option value="due">Due</option><option value="new">New</option><option value="learning">Learning</option><option value="mastered">Mastered</option><option value="favorites">Favorites</option></select>
+          <select id="statusFilter"><option value="all">All cards</option><option value="due">Due</option><option value="weak">Weak</option><option value="new">New</option><option value="learning">Learning</option><option value="mastered">Mastered</option><option value="favorites">Favorites</option></select>
+          <select id="sortFilter"><option value="default">Original order</option><option value="az">A to Z</option><option value="za">Z to A</option><option value="weak">Weakest first</option><option value="due">Due first</option></select>
         </div>
-        <div class="library-meta"><span id="browseCount">204 cards</span><button class="text-btn" id="studyFiltered">Study these</button></div>
+        <div class="library-meta"><span id="browseCount">0 cards</span><button class="text-btn" id="studyFiltered">Study these</button></div>
         <div class="card-list" id="cardList"></div>
       </section>
 
       <section class="view" id="quizView">
-        <div class="page-title"><div><span class="eyebrow">Practice</span><h2>Multiple-choice quiz</h2></div><button class="text-btn" id="restartQuiz">Restart</button></div>
-        <div class="quiz-score-row"><span id="quizProgress">Question 1 of 10</span><strong id="quizScore">0 correct</strong></div>
-        <article class="quiz-card">
-          <span class="eyebrow">Choose the best definition</span>
-          <h2 id="quizTerm"></h2>
-          <div class="choices" id="quizChoices"></div>
-          <p class="quiz-feedback" id="quizFeedback"></p>
-          <button class="primary-btn full" id="nextQuestion" disabled>Next question</button>
-        </article>
+        <div class="page-title"><div><span class="eyebrow">Practice</span><h2>Quiz</h2></div></div>
+        <section class="panel-card quiz-setup" id="quizSetup">
+          <h3>Build your quiz</h3>
+          <label>Card source<select id="quizSource"><option value="all">All cards</option><option value="due">Due cards</option><option value="favorites">Favorites</option><option value="weak">Weak concepts</option><option value="1">Group 1</option><option value="2">Group 2</option><option value="3">Group 3</option><option value="4">Group 4</option></select></label>
+          <label>Questions<select id="quizLength"><option value="10">10 questions</option><option value="25">25 questions</option><option value="50">50 questions</option><option value="random">Random mode</option></select></label>
+          <button class="primary-btn full" id="startQuiz">Start Quiz</button>
+        </section>
+        <div id="quizPlay" hidden>
+          <div class="quiz-score-row"><span id="quizProgress"></span><strong id="quizScore"></strong></div>
+          <article class="quiz-card"><span class="eyebrow">Choose the best definition</span><h2 id="quizTerm"></h2><div class="choices" id="quizChoices"></div><div class="quiz-feedback" id="quizFeedback"></div><button class="primary-btn full" id="nextQuestion" disabled>Next question</button></article>
+        </div>
+        <section class="panel-card" id="quizResults" hidden></section>
       </section>
 
       <section class="view" id="statsView">
@@ -124,14 +108,17 @@
           <article><strong id="statsBest">0</strong><span>Best streak</span></article>
           <article><strong id="statsAccuracy">0%</strong><span>Quiz accuracy</span></article>
           <article><strong id="statsReviews">0</strong><span>Total reviews</span></article>
+          <article><strong id="statsReadiness">0%</strong><span>Exam readiness</span></article>
+          <article><strong id="statsMastery">0%</strong><span>Overall mastery</span></article>
         </div>
-        <section class="panel-card"><div class="section-heading"><div><span class="eyebrow">Mastery</span><h3>Deck status</h3></div></div><div class="mastery-bars" id="masteryBars"></div></section>
-        <section class="panel-card"><div class="section-heading"><div><span class="eyebrow">Groups</span><h3>Progress by group</h3></div></div><div id="groupStats"></div></section>
+        <section class="panel-card"><div class="section-heading"><div><span class="eyebrow">Groups</span><h3>Mastery by group</h3></div></div><div id="groupStats"></div></section>
+        <section class="panel-card"><div class="section-heading"><div><span class="eyebrow">Last 28 days</span><h3>Study heat map</h3></div></div><div class="heatmap" id="heatmap"></div></section>
+        <section class="panel-card"><div class="section-heading"><div><span class="eyebrow">Concepts</span><h3>Weakest concepts</h3></div></div><div id="weakStats"></div></section>
         <section class="panel-card danger-zone"><h3>Reset study data</h3><p>This clears scheduling, favorites, streaks, and quiz history on this device.</p><button class="danger-btn" id="resetData">Reset all progress</button></section>
       </section>
     </main>
 
-    <nav class="bottom-nav" aria-label="Primary navigation">
+    <nav class="bottom-nav">
       <button class="nav-item active" data-view="home"><span>⌂</span><small>Home</small></button>
       <button class="nav-item" data-view="browse"><span>⌕</span><small>Browse</small></button>
       <button class="nav-item" data-view="quiz"><span>◎</span><small>Quiz</small></button>
