@@ -1,13 +1,21 @@
-# Six Sigma Flashcards
+# Six Sigma Study App, Version 2
 
-A mobile-friendly flashcard study app with 204 Six Sigma concepts.
+A mobile-first Six Sigma flashcard app with 204 cards, spaced repetition, quizzes, search, group filters, favorites, streaks, statistics, dark mode, offline support, and Home Screen installation.
 
-## Features
-- Study and quiz modes
-- Search and group filters
-- Plain-English explanations and examples
-- Browser-saved mastery tracking
-- Works on mobile and desktop
+## Updating the existing GitHub Pages site
 
-## GitHub Pages
-In the repository, open **Settings > Pages**. Under **Build and deployment**, select **Deploy from a branch**, choose **main** and **/(root)**, then save.
+Upload every file and the `icons` folder to the root of the existing `Six-Sigma-Flashcards` repository. Choose **Commit changes**. Files with matching names should replace the old versions. The GitHub Pages URL stays the same.
+
+## Important
+
+Keep these files together in the repository root:
+
+- `index.html`
+- `styles.css`
+- `app.js`
+- `cards1.js` through `cards4.js`
+- `manifest.json`
+- `service-worker.js`
+- `icons/`
+
+The app stores progress only in the browser on the current device. It attempts to import progress from the earlier version automatically.
