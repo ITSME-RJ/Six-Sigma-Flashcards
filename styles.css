@@ -4,3 +4,57 @@
 @media(max-width:620px){.hero-card{padding:21px}.mastery-ring{width:88px;height:88px;flex-basis:88px}.dashboard-grid,.big-stat-grid{grid-template-columns:1fr 1fr}.quick-grid{grid-template-columns:1fr 1fr}.filters{grid-template-columns:1fr}.flashcard{height:57vh;min-height:410px}.topbar p{display:none}}
 @media(max-width:400px){.hero-card{align-items:flex-start}.mastery-ring{width:76px;height:76px;flex-basis:76px}.mastery-ring span{font-size:1.1rem}.flashcard{min-height:390px}.rating b{font-size:.78rem}.rating small{font-size:.67rem}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+
+/* iPhone-safe flashcard mode: term first, definition after tap */
+.swipe-stage{
+  perspective:none;
+  -webkit-perspective:none;
+}
+
+.flashcard{
+  transform-style:flat;
+  -webkit-transform-style:flat;
+}
+
+.flashcard.flipped{
+  transform:none;
+  -webkit-transform:none;
+}
+
+.card-face{
+  transform:none;
+  -webkit-transform:none;
+  backface-visibility:visible;
+  -webkit-backface-visibility:visible;
+  transition:opacity .18s ease, visibility .18s ease;
+}
+
+.card-front{
+  z-index:2;
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+}
+
+.card-back{
+  z-index:1;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.flashcard.flipped .card-front{
+  z-index:1;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.flashcard.flipped .card-back{
+  z-index:2;
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+}
+
