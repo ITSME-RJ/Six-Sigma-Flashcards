@@ -6,55 +6,51 @@
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 
-/* iPhone-safe flashcard mode: term first, definition after tap */
+/* Guaranteed iPhone card rendering: no overlapping layers */
 .swipe-stage{
-  perspective:none;
-  -webkit-perspective:none;
+  perspective:none !important;
+  -webkit-perspective:none !important;
 }
 
 .flashcard{
-  transform-style:flat;
-  -webkit-transform-style:flat;
-}
-
-.flashcard.flipped{
-  transform:none;
-  -webkit-transform:none;
+  position:relative !important;
+  transform:none !important;
+  -webkit-transform:none !important;
+  transform-style:flat !important;
+  -webkit-transform-style:flat !important;
 }
 
 .card-face{
-  transform:none;
-  -webkit-transform:none;
-  backface-visibility:visible;
-  -webkit-backface-visibility:visible;
-  transition:opacity .18s ease, visibility .18s ease;
+  position:relative !important;
+  inset:auto !important;
+  width:100% !important;
+  height:100% !important;
+  transform:none !important;
+  -webkit-transform:none !important;
+  backface-visibility:visible !important;
+  -webkit-backface-visibility:visible !important;
+  opacity:1 !important;
+  visibility:visible !important;
 }
 
 .card-front{
-  z-index:2;
-  opacity:1;
-  visibility:visible;
-  pointer-events:auto;
+  display:flex !important;
 }
 
 .card-back{
-  z-index:1;
-  opacity:0;
-  visibility:hidden;
-  pointer-events:none;
+  display:none !important;
 }
 
 .flashcard.flipped .card-front{
-  z-index:1;
-  opacity:0;
-  visibility:hidden;
-  pointer-events:none;
+  display:none !important;
 }
 
 .flashcard.flipped .card-back{
-  z-index:2;
-  opacity:1;
-  visibility:visible;
-  pointer-events:auto;
+  display:flex !important;
+}
+
+.flashcard.swipe-left,
+.flashcard.swipe-right{
+  opacity:.15 !important;
 }
 
