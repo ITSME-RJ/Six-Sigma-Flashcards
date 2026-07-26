@@ -1,0 +1,4 @@
+Replace app.js, styles.css, and service-worker.js in the repository root.
+Then fully close and reopen the installed app.
+If the old behavior remains, clear Safari website data for the GitHub Pages site once.
+You do not need to reset your study progress.
