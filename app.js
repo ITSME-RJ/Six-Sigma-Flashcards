@@ -57,7 +57,7 @@ function installFinalUI(){
    .related-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
    .related-chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 10px;font-size:.74rem;font-weight:700}
    .quick-grid{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
-   .flashcard{will-change:transform,opacity}.card-face{transform:translateZ(0)}
+   .flashcard{will-change:transform,opacity}
    .answer-scroll{scroll-behavior:smooth;padding-bottom:48px}
    .quiz-feedback .feedback-block{border-left:4px solid var(--accent);padding:8px 0 8px 12px;margin-top:9px}
    .quiz-feedback .feedback-trap{border-left-color:#f59e0b}

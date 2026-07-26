@@ -1,10 +1,6 @@
-RESTORED WORKING VERSION
+Replace only app.js in the repository root.
 
-Replace these files in the repository root:
-1. app.js
-2. styles.css
-3. service-worker.js
-
-This removes the later iPhone flip patches and restores the original working card controls.
-After uploading, fully close the installed app and reopen it.
-Do not reset study progress.
+This removes the dynamically injected translateZ(0) rule that can hide the flashcard faces on iPhone Safari.
+No CSS file replacement is needed.
+No study progress reset is needed.
+After uploading, fully close and reopen the installed app.
